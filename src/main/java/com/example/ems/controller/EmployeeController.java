@@ -1,10 +1,13 @@
 package com.example.ems.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +21,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
     @PostMapping
     public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto) {
         EmployeeDto savedEmployee = employeeService.createEmployee(employeeDto);
@@ -28,5 +31,16 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long id) {
         EmployeeDto employeeDto = employeeService.getEmployeeById(id);
         return new ResponseEntity<>(employeeDto, HttpStatus.OK);
+    }
+    @GetMapping
+    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
+        List<EmployeeDto> employees = employeeService.getAllEmployees();
+        return new ResponseEntity<>(employees, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable("id") Long id, @RequestBody EmployeeDto employeeDto) {
+        EmployeeDto existingEmployee = employeeService.updateEmployee(id, employeeDto);
+        return new ResponseEntity<>(existingEmployee, HttpStatus.OK);
     }
 }
