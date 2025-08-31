@@ -3,12 +3,9 @@ package com.example.ems.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
-    public ResourceNotFoundException(String message) {
+@ResponseStatus(HttpStatus.CONFLICT)  // 409
+public class DuplicateResourceException extends RuntimeException {
+    public DuplicateResourceException(String message) {
         super(message);
     }
-    
 }
-
-
